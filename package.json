@@ -1,0 +1,193 @@
+{
+  "name": "sourcesafe-context",
+  "displayName": "SourceSafe",
+  "description": "Operações Microsoft Visual SourceSafe nos menus do VS Code e Cursor.",
+  "version": "1.0.0",
+  "publisher": "hayasshida",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "SCM Providers"
+  ],
+  "main": "./dist/extension.js",
+  "extensionKind": [
+    "workspace"
+  ],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false
+    },
+    "virtualWorkspaces": false
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "test": "npm run compile && node --test test/*.test.js",
+    "vscode:prepublish": "npm run compile",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.0",
+    "@types/vscode": "1.85.0",
+    "@vscode/vsce": "^3.6.0",
+    "typescript": "^5.7.0"
+  },
+  "dependencies": {
+    "iconv-lite": "^0.6.3"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "sourcesafe.getLatest",
+        "title": "Obter Última Versão (Recursivo)",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.get",
+        "title": "Obter...",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.checkout",
+        "title": "Fazer Check-Out para Edição...",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.checkin",
+        "title": "Check-In...",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.undoCheckout",
+        "title": "Desfazer Check-Out...",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.history",
+        "title": "Exibir Histórico",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.compare",
+        "title": "Comparar...",
+        "category": "SourceSafe"
+      },
+      {
+        "command": "sourcesafe.properties",
+        "title": "SourceSafe Propriedades...",
+        "category": "SourceSafe"
+      }
+    ],
+    "configuration": {
+      "title": "SourceSafe",
+      "properties": {
+        "sourcesafe.executablePath": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Caminho completo do ss.exe instalado no Windows."
+        },
+        "sourcesafe.databaseDirectory": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Diretório contendo srcsafe.ini."
+        },
+        "sourcesafe.projectRoot": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Raiz do projeto no SourceSafe, por exemplo $/RealizaERP."
+        },
+        "sourcesafe.username": {
+          "type": "string",
+          "default": "",
+          "scope": "resource",
+          "description": "Usuário SourceSafe."
+        },
+        "sourcesafe.outputEncoding": {
+          "type": "string",
+          "default": "cp850",
+          "scope": "resource",
+          "description": "Página de códigos usada pelo ss.exe; por exemplo cp850, cp860 ou cp1252."
+        }
+      }
+    },
+    "menus": {
+      "explorer/context": [
+        {
+          "submenu": "sourcesafe.context",
+          "when": "resourceScheme == file",
+          "group": "sourcesafe"
+        }
+      ],
+      "editor/context": [
+        {
+          "submenu": "sourcesafe.context",
+          "when": "resourceScheme == file",
+          "group": "sourcesafe"
+        }
+      ],
+      "editor/title/context": [
+        {
+          "submenu": "sourcesafe.context",
+          "when": "resourceScheme == file",
+          "group": "sourcesafe"
+        }
+      ],
+      "sourcesafe.context": [
+        {
+          "command": "sourcesafe.getLatest",
+          "group": "sourcesafe@1",
+          "when": "resourceScheme == file"
+        },
+        {
+          "command": "sourcesafe.get",
+          "group": "sourcesafe@2",
+          "when": "resourceScheme == file"
+        },
+        {
+          "command": "sourcesafe.checkout",
+          "group": "sourcesafe@3",
+          "when": "resourceScheme == file && !explorerResourceIsFolder"
+        },
+        {
+          "command": "sourcesafe.checkin",
+          "group": "sourcesafe@4",
+          "when": "resourceScheme == file && !explorerResourceIsFolder"
+        },
+        {
+          "command": "sourcesafe.undoCheckout",
+          "group": "sourcesafe@5",
+          "when": "resourceScheme == file && !explorerResourceIsFolder"
+        },
+        {
+          "command": "sourcesafe.history",
+          "group": "sourcesafe@6",
+          "when": "resourceScheme == file"
+        },
+        {
+          "command": "sourcesafe.compare",
+          "group": "sourcesafe@7",
+          "when": "resourceScheme == file && !explorerResourceIsFolder"
+        },
+        {
+          "command": "sourcesafe.properties",
+          "group": "sourcesafe@8",
+          "when": "resourceScheme == file"
+        }
+      ]
+    },
+    "submenus": [
+      {
+        "id": "sourcesafe.context",
+        "label": "SourceSafe"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Hayasshida/vss-extension.git"
+  }
+}
